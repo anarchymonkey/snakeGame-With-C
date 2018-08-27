@@ -5,6 +5,8 @@ int startingPoint = 0;
 int endingPoint = 4;
 int row = 10;
 int col = 40;
+char matrix[20][80];
+char key;
 struct Snake
 {
     char x;
@@ -57,42 +59,46 @@ void addSnake(char matrix[][80])
 }
 
 /* END OF THE ADD FUNCTION , WHERE THE SNAKE IS ADDED */
+void movement(char matrix[][80],char key)
+{
 
+    while(key!='e')
+    {
+        addSnake(matrix);
+
+        switch(key)
+        {
+            case 'w':
+                endingPoint++;
+                startingPoint++;
+                matrix[row--][col]='*';
+                break;
+            case 'a':
+                break;
+            case 's':
+                endingPoint++;
+                startingPoint++;
+                matrix[row++][col]='*';
+                break;
+            case 'd':endingPoint++;
+                break;
+        }
+        DisplayBoundary(matrix);
+        cin>>key;
+
+    }
+
+}
 
 /* THE MAIN FUNCTION WHERE ALL THE FUNCTIONS OF DISPLAY,MOVE,EAT ARE CALLED */
 int main()
 {
-    char matrix[20][80];
-    char key;
-
+    system("cls");
+    cout<<"WELCOME TO SNAKEEEEEEEEEEEEEE W/H MATRIXXXXXXX"<<endl;
     CreateBoundary(matrix); //creating the boundary;
-
-
-
     cout<<"ENTER\n W to move Up\n S to move Down\n A to move left\n D to move right"<<endl;
     cin>>key;
-
-    while(key!='E')
-    {
-        switch(key)
-        {
-            case 'w':
-                break;
-            case 'a':
-                    addSnake(matrix);
-                    col++;
-                    endingPoint++;
-
-                break;
-            case 's':
-                break;
-            case 'd':
-                break;
-        }
-
-        cin>>key;
-        DisplayBoundary(matrix);
-    }
+    movement(matrix,key);
 
 
 
