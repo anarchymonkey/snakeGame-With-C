@@ -3,6 +3,8 @@
 using namespace std;
 int startingPoint = 0;
 int endingPoint = 4;
+int row = 10;
+int col = 40;
 struct Snake
 {
     char x;
@@ -46,8 +48,7 @@ void DisplayBoundary(char matrix[][80]);
 
 void addSnake(char matrix[][80])
 {
-    int row = 10;
-    int col = 40;
+
     while(startingPoint < endingPoint)
     {
         matrix[row][col++] = insertSnake('*');
@@ -62,10 +63,38 @@ void addSnake(char matrix[][80])
 int main()
 {
     char matrix[20][80];
+    char key;
 
     CreateBoundary(matrix); //creating the boundary;
-    addSnake(matrix);
-    DisplayBoundary(matrix);
+
+
+
+    cout<<"ENTER\n W to move Up\n S to move Down\n A to move left\n D to move right"<<endl;
+    cin>>key;
+
+    while(key!='E')
+    {
+        switch(key)
+        {
+            case 'w':
+                break;
+            case 'a':
+                    addSnake(matrix);
+                    col++;
+                    endingPoint++;
+
+                break;
+            case 's':
+                break;
+            case 'd':
+                break;
+        }
+
+        cin>>key;
+        DisplayBoundary(matrix);
+    }
+
+
 
     return 0;
 }
