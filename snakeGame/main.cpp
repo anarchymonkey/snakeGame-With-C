@@ -1,5 +1,6 @@
 #include<iostream>
 #include<stdio.h>
+#include<windows.h>
 using namespace std;
 int startingPoint = 0;
 int endingPoint = 4;
@@ -72,13 +73,16 @@ void movement(char matrix[][80],char key)
                 endingPoint++;
                 startingPoint++;
                 matrix[row--][col]='*';
+                system("cls");
                 break;
             case 'a':
                 break;
             case 's':
                 endingPoint++;
                 startingPoint++;
+                system("cls");
                 matrix[row++][col]='*';
+
                 break;
             case 'd':endingPoint++;
                 break;
@@ -98,6 +102,7 @@ int main()
     CreateBoundary(matrix); //creating the boundary;
     cout<<"ENTER\n W to move Up\n S to move Down\n A to move left\n D to move right"<<endl;
     cin>>key;
+    system("cls");
     movement(matrix,key);
 
 
@@ -113,7 +118,7 @@ void CreateBoundary(char matrix[][80])
    int i, j;
    int row = 10;
    int col = 40;
-
+   system("cls");
     for (i = 1; i <= 20; i++)
     {
         for (j = 1; j <= 80; j++)
@@ -137,6 +142,7 @@ void CreateBoundary(char matrix[][80])
 /* DISPLAYING THE BOUNDARY */
 void DisplayBoundary(char matrix[][80])
 {int i , j;
+system("cls");
      for (i = 1; i <= 20; i++)
     {
         for (j = 1; j <= 80; j++)
