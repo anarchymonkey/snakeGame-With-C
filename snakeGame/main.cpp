@@ -59,6 +59,23 @@ void addSnake(char matrix[][80])
     }
 }
 
+/* FOR GETTING THE COORDINATES [ to be understood by Anmol Jande ] */
+void getCoords(int a,int b)
+{
+    struct Snake *t=head;
+    t->x = a;
+    t->y = b;
+}
+/* END FUNCTION */
+/* ADD THE MOVEMENT SHIFTER FUNCTION TO IMPLEMENT */
+
+void moveSnake(char matrix[][80])
+{
+    struct Snake *node_x = head;
+    matrix[node_x->x][node_x->y] = node_x->data;
+}
+
+/*END OF THE MOVEMENT FUNCTION */
 /* END OF THE ADD FUNCTION , WHERE THE SNAKE IS ADDED */
 void movement(char matrix[][80],char key)
 {
@@ -70,21 +87,34 @@ void movement(char matrix[][80],char key)
         switch(key)
         {
             case 'w':
-                endingPoint++;
-                startingPoint++;
-                matrix[row--][col]='*';
                 system("cls");
+                row=row-1;
+                getCoords(row,col);
+                moveSnake(matrix);
                 break;
             case 'a':
-                break;
-            case 's':
-                endingPoint++;
-                startingPoint++;
+
                 system("cls");
-                matrix[row++][col]='*';
+                col=col-1;
+                getCoords(row,col);
+                moveSnake(matrix);
+
+
+                                break;
+            case 's':
+               system("cls");
+                row=row+1;
+                getCoords(row,col);
+                moveSnake(matrix);
+
 
                 break;
-            case 'd':endingPoint++;
+            case 'd':
+                system("cls");
+                col=col+1;
+                getCoords(row,col);
+                moveSnake(matrix);
+
                 break;
         }
         DisplayBoundary(matrix);
