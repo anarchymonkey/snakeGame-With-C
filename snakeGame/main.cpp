@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdio.h>
-#include<windows.h>
+#include<conio.h>
+#include<stdlib.h>
 using namespace std;
 int startingPoint = 0;
 int endingPoint = 4;
@@ -37,6 +38,26 @@ char insertSnake(char value)
 
     return newNode->data;
 }
+
+/* CREATE FOOD */
+
+void createFood()
+{
+    int rowPos=(rand()%(20));
+    int colPos=(rand()%(80-1))+(1);
+
+    if (matrix[rowPos][colPos] !='#')
+    {
+        matrix[rowPos][colPos] = '@';
+
+    }
+    else{
+        createFood();
+
+    }
+}
+
+/* END CREATING FOOD */
 
 /* DEFINITION OF THE MATRIX FUNCTION */
 void CreateBoundary(char matrix[][80]);
@@ -76,49 +97,58 @@ void moveSnake(char matrix[][80])
 }
 
 /*END OF THE MOVEMENT FUNCTION */
+
+/* CHECK WEITHER THE THING CONTAINS A STAR */
+
+/* ********************************************* */
+
+
 /* END OF THE ADD FUNCTION , WHERE THE SNAKE IS ADDED */
 void movement(char matrix[][80],char key)
 {
 
+
     while(key!='e')
     {
+
         addSnake(matrix);
+        system("cls");
 
         switch(key)
         {
             case 'w':
-                system("cls");
+                matrix[row][col] = ' ';
                 row=row-1;
                 getCoords(row,col);
                 moveSnake(matrix);
                 break;
             case 'a':
-
-                system("cls");
+                matrix[row][col] = ' ';
                 col=col-1;
                 getCoords(row,col);
                 moveSnake(matrix);
-
-
-                                break;
+                break;
             case 's':
-               system("cls");
+               matrix[row][col] = ' ';
                 row=row+1;
                 getCoords(row,col);
                 moveSnake(matrix);
-
-
                 break;
             case 'd':
-                system("cls");
+                matrix[row][col] = ' ';
                 col=col+1;
                 getCoords(row,col);
                 moveSnake(matrix);
-
                 break;
         }
+        cout<<"ROW IS "<<row<<endl<<" COL IS "<<col<<endl;
+        if(matrix[row][col] =='@')
+        {        createFood();
+        }
+
         DisplayBoundary(matrix);
         cin>>key;
+
 
     }
 
@@ -127,13 +157,13 @@ void movement(char matrix[][80],char key)
 /* THE MAIN FUNCTION WHERE ALL THE FUNCTIONS OF DISPLAY,MOVE,EAT ARE CALLED */
 int main()
 {
-    system("cls");
     cout<<"WELCOME TO SNAKEEEEEEEEEEEEEE W/H MATRIXXXXXXX"<<endl;
     CreateBoundary(matrix); //creating the boundary;
     cout<<"ENTER\n W to move Up\n S to move Down\n A to move left\n D to move right"<<endl;
     cin>>key;
-    system("cls");
+    createFood();
     movement(matrix,key);
+
 
 
 
@@ -148,7 +178,6 @@ void CreateBoundary(char matrix[][80])
    int i, j;
    int row = 10;
    int col = 40;
-   system("cls");
     for (i = 1; i <= 20; i++)
     {
         for (j = 1; j <= 80; j++)
@@ -172,7 +201,6 @@ void CreateBoundary(char matrix[][80])
 /* DISPLAYING THE BOUNDARY */
 void DisplayBoundary(char matrix[][80])
 {int i , j;
-system("cls");
      for (i = 1; i <= 20; i++)
     {
         for (j = 1; j <= 80; j++)

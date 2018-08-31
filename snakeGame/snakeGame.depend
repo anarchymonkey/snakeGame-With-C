@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1535527737 source:c:\users\aniket\desktop\snakegame-with-c\snakegame\main.cpp
+1535625002 source:c:\users\aniket\desktop\snakegame-with-c\snakegame\main.cpp
 	<iostream>
 	<stdio.h>
-	<windows.h>
+	<conio.h>
+	<stdlib.h>
 
