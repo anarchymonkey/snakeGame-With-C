@@ -9,16 +9,16 @@ int row = 10;
 int col = 40;
 char matrix[20][80];
 char key;
+
 struct Snake
 {
-    char x;
-    char y;
+    int x;
+    int y;
     char data;
     Snake *next;
 };
 
 Snake *head = NULL;
-
 
 char insertSnake(char value)
 {
@@ -44,27 +44,28 @@ char insertSnake(char value)
 void createFood()
 {
     int rowPos=(rand()%(20));
-    int colPos=(rand()%(80-1))+(1);
-
+    int colPos=(rand()%(80));
+    if(rowPos>1&&rowPos<20||colPos>1&&colPos<80)
+    {
     if (matrix[rowPos][colPos] !='#')
     {
         matrix[rowPos][colPos] = '@';
-
     }
-    else{
+    else
+    {
         createFood();
-
+    }
     }
 }
 
 /* END CREATING FOOD */
 
 /* DEFINITION OF THE MATRIX FUNCTION */
-void CreateBoundary(char matrix[][80]);
+void CreateBoundary();
 /* END OF DEFINITION OF THE MATRIX FUNCTION */
 
 /* DEFINITION OF THE DISPLAY FUNCTION OF THE MATRIX */
-void DisplayBoundary(char matrix[][80]);
+void DisplayBoundary();
 /* END OF DEFINITION OF THE MATRIX FUNCTION */
 
 
@@ -72,82 +73,67 @@ void DisplayBoundary(char matrix[][80]);
 
 void addSnake(char matrix[][80])
 {
-
+    Snake *temp = head;
     while(startingPoint < endingPoint)
     {
         matrix[row][col++] = insertSnake('*');
         startingPoint++;
     }
 }
+/* ADD THE MOVEMENT SHIFTER FUNCTION TO IMPLEMENT */
 
-/* FOR GETTING THE COORDINATES [ to be understood by Anmol Jande ] */
-void getCoords(int a,int b)
+void moveSnake(int a , int b)
 {
     struct Snake *t=head;
     t->x = a;
     t->y = b;
-}
-/* END FUNCTION */
-/* ADD THE MOVEMENT SHIFTER FUNCTION TO IMPLEMENT */
 
-void moveSnake(char matrix[][80])
-{
+    matrix[t->x][t->y] = t->data;
+
+
+    cout<<"THE ROW LIST IS"<<t->x<<endl;
+    cout<<"THE COL LIST IS"<<t->y<<endl;
     struct Snake *node_x = head;
     matrix[node_x->x][node_x->y] = node_x->data;
+
 }
-
 /*END OF THE MOVEMENT FUNCTION */
-
 /* CHECK WEITHER THE THING CONTAINS A STAR */
-
 /* ********************************************* */
-
-
 /* END OF THE ADD FUNCTION , WHERE THE SNAKE IS ADDED */
-void movement(char matrix[][80],char key)
+void movement(char key)
 {
 
 
     while(key!='e')
     {
 
-        addSnake(matrix);
+
         system("cls");
 
         switch(key)
         {
             case 'w':
-                matrix[row][col] = ' ';
                 row=row-1;
-                getCoords(row,col);
-                moveSnake(matrix);
+                moveSnake(row,col);
                 break;
             case 'a':
-                matrix[row][col] = ' ';
                 col=col-1;
-                getCoords(row,col);
-                moveSnake(matrix);
-                break;
+                moveSnake(row,col);
+                               break;
             case 's':
-               matrix[row][col] = ' ';
                 row=row+1;
-                getCoords(row,col);
-                moveSnake(matrix);
+                moveSnake(row,col);
                 break;
             case 'd':
-                matrix[row][col] = ' ';
                 col=col+1;
-                getCoords(row,col);
-                moveSnake(matrix);
+                moveSnake(row,col);
                 break;
         }
         cout<<"ROW IS "<<row<<endl<<" COL IS "<<col<<endl;
-        if(matrix[row][col] =='@')
-        {        createFood();
-        }
-
-        DisplayBoundary(matrix);
-        cin>>key;
+        DisplayBoundary();
+        if(kbhit())
+        key=getche();
 
 
     }
@@ -158,11 +144,13 @@ void movement(char matrix[][80],char key)
 int main()
 {
     cout<<"WELCOME TO SNAKEEEEEEEEEEEEEE W/H MATRIXXXXXXX"<<endl;
-    CreateBoundary(matrix); //creating the boundary;
+    CreateBoundary(); //creating the boundary;
     cout<<"ENTER\n W to move Up\n S to move Down\n A to move left\n D to move right"<<endl;
-    cin>>key;
+    if(kbhit())
+    key=getche();
     createFood();
-    movement(matrix,key);
+    addSnake(matrix);
+    movement(key);
 
 
 
@@ -173,17 +161,15 @@ int main()
 
 
 /* DEFINITION */
-void CreateBoundary(char matrix[][80])
+void CreateBoundary()
 {
    int i, j;
-   int row = 10;
-   int col = 40;
-    for (i = 1; i <= 20; i++)
+    for (i = 0; i < 20; i++)
     {
-        for (j = 1; j <= 80; j++)
+        for (j = 0; j < 80; j++)
         {
 
-            if (i==1 || i==20 || j==1 || j==80)
+            if (i==1 || i==19|| j==1 || j==79)
             {
                 matrix[i][j] ='#';
             }
@@ -199,7 +185,7 @@ void CreateBoundary(char matrix[][80])
 }
 
 /* DISPLAYING THE BOUNDARY */
-void DisplayBoundary(char matrix[][80])
+void DisplayBoundary()
 {int i , j;
      for (i = 1; i <= 20; i++)
     {
