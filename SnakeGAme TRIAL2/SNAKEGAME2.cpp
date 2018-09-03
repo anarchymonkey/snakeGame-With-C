@@ -19,68 +19,71 @@ struct Snake
 };
 
 Snake *head = NULL;
-
-/* INSERTING SNAKE TO LINKED LIST */
-char insertSnake(char value)
+/* INSERT MATRIX FUNCTION */
+void insertMatrix()
 {
-    Snake *newNode = new Snake;
-    Snake *tailNode;
-    newNode->data = value;
+  struct Snake *newNode;
+  newNode=head;
+  while(newNode->next!=NULL)
+  {
+    matrix[newNode->x][newNode->y]=newNode->data;
+    newNode=newNode->next;
+  }
+    matrix[newNode->x][newNode->y]=' ';
+};
+/* ***************** */
+/* CREATE MEMORY */
 
-    if(head == NULL)
-    {
-        newNode->next = NULL;
-        head = newNode;
-    }
-    else
-    {
-        tailNode = head;
-        while(tailNode->next != NULL)
-        {
-            tailNode = tailNode->next;
-        }
-        tailNode->next = newNode;
-        newNode->next = NULL;
-    }
-    return newNode->data;
+struct Snake* create(int ROW,int COL,char VALUE)
+  {
+    struct Snake *initNode;
+    initNode=(struct Snake*)malloc(sizeof(struct Snake));
+    initNode->x=ROW;
+    initNode->y=COL;
+    initNode->data=VALUE;
+    initNode->next=NULL;
+    return initNode;
+  }
 
+/* ******************* */
+
+/* INSERT HEAD FUNCTION */
+
+void insert(int ROW,int COL,char VALUE)
+{
+  struct Snake *newNode=create(ROW,COL,VALUE);
+  struct Snake *tailNode=head;
+  if(head==NULL)
+  {
+    head=newNode;
+  }
+  else
+  {
+    newNode->next=head;
+    tailNode->data='*';
+    head=newNode;
+  }
 }
 
-/* END OF INSERTING SNAKE */
+/* END OF INSERT HEAD FUNCTION */
 
-/* DELETING THE LASTNODE OF THE SNAKE */
-void deleteLastnode()
-    {
-        Snake *toDelete;
-        Snake *preNode;
+/* START OF DELETE FUNCTION */
+void deleteSnake()
+{
+  Snake *toDelete=head;
+Snake *tailDelete;
+ while(toDelete->next!= NULL)
+ {
+   tailDelete=toDelete;
+   toDelete=toDelete->next;
+ }
+ free(tailDelete->next);
+ tailDelete->next=NULL;
+}
 
-        if(head == NULL)
-        {
-            cout<<"NO ELEMENTS THERE"<<endl;
-        }
-        else
-        {
-            toDelete = head;
-            preNode = head;
 
-            while(toDelete->next != NULL)
-            {   preNode = toDelete;
-                toDelete = toDelete->next;
-            }
+/* END OF DELETE FUNCTION */
 
-            if(toDelete == head)
-            {
-                head = NULL;
-            }
-            else{
-                preNode->next = NULL;
-            }
-
-            delete toDelete;
-        }
-
-    }
-/* END OF DELETING SNAKE */
 
 
 /* CREATE THE BOUNDARY */
@@ -106,27 +109,8 @@ void CreateBoundary()
     }
 
 }
-
 /* END OF CREATING BOUNDARY */
-
-void initSnake(int ROW,int COL)
-{
-    Snake *init = new Snake;
-
-    init->x = ROW;
-    init->y = COL;
-    cout<<"ROW IS"<<init->x<<endl;
-    cout<<"COL IS"<<init->y<<endl;
-     while(startingPoint<5)
-    {
-        matrix[init->x][(init->y)++] = insertSnake('*');
-        startingPoint++;
-    }
-
-}
-
 /* DISPLAY THE BOUNDARY */
-
 void DisplayBoundary()
 {int i , j;
      for (i = 1; i <= 20; i++)
@@ -138,51 +122,53 @@ void DisplayBoundary()
         cout<<'\n';
     }
 }
+/* INITIALISED THE PRESENT BODY OF THE SNAKE */
 
-/* CREATE THE BOUNDARY */
-
-void moveSnake(int ROW,int COL)
+void initSnake()
 {
-    Snake *movement = new Snake;
-    movement->x = ROW;
-    movement->y = COL;
-    deleteLastnode();
-    matrix[movement->x][movement->y] = insertSnake('*');
-
-
+    while(startingPoint<endingPoint)
+    {
+        insert(row,col++,'*');
+        startingPoint++;
+    }
 }
-
-/* CODE FOR MOVEMENT */
+/* ***************************************** */
+/* CODE FOR MOVEMENT KEYS */
 void movement(char key)
 {
 
 
-    while(key!='e')
+    while(1)
     {
-
-
-        system("cls");
-
         switch(key)
         {
             case 'w':
-                row=row-1;
-                moveSnake(row,col);
+                row = row - 1; // going UP
+                insert(row,col,'*'); // MAKING A NEW NODE AND ASSIGNING ITS DATA TO *
+                insertMatrix(); // INSERTING THE init->data to the matrix position
+                deleteSnake(); // DELETING THE LAST UNUSED NODE
                 break;
             case 'a':
-                col=col-1;
-                moveSnake(row,col);
-                               break;
+                col = col - 1; //going LEFT
+                insert(row,col,'*');
+                insertMatrix();
+                deleteSnake();
+                break;
             case 's':
-                row=row+1;
-                moveSnake(row,col);
+                row = row + 1; //GOING DOWN
+                insert(row,col,'*');
+                insertMatrix();
+                deleteSnake();
                 break;
             case 'd':
-                col=col+1;
-                moveSnake(row,col);
+                col = col + 1;//GOING RIGHT
+                insert(row,col,'*');
+                insertMatrix();
+                deleteSnake();
                 break;
         }
         cout<<"ROW IS "<<row<<endl<<" COL IS "<<col<<endl;
+        system("cls");
         DisplayBoundary();
         cin>>key;
 
@@ -191,15 +177,21 @@ void movement(char key)
 
 }
 
-
+/* END CODE FOR MOVEMENT KEYS */
 
 
 int main()
-{
+{   /* THE OUTER BOUNDARY IS CREATED */
     CreateBoundary();
-    initSnake(row,col);
-    DisplayBoundary();
+    /* ***************************** */
+
+    /* THE BODY OF THE SNAKE IS DECLARED */
+    initSnake();
+    /* ************************************ */
+
+    /* GIVING THE OPTIONS TO THE USER */
     cout<<"ENTER\n W TO MOVE UPWARDS\n S TO MOVE DOWNWARDS \n A TO MOVE LEFT \n D TO MOVE RIGHT"<<endl;
     cin>>key;
     movement(key);
+    /* END OF GIVING OPTIONS TO THE USER */
 }
