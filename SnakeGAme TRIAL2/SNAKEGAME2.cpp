@@ -133,6 +133,17 @@ void initSnake()
     }
 }
 /* ***************************************** */
+
+/* CREATE THE FOOD FOR THE SNAKE CAUSE THE SNAKE IS HUNGRYYYYYYYYYYYYYYYYYYYYY */
+
+struct snakeFood
+{
+    int food_X;
+    int food_Y;
+    char theFood;
+};
+
+/* **************************************************************************** */
 /* CODE FOR MOVEMENT KEYS */
 void movement(char key)
 {
