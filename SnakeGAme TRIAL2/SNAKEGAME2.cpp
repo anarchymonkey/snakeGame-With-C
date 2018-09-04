@@ -3,13 +3,20 @@
 #include<conio.h>
 #include<stdlib.h>
 using namespace std;
+
+/* GLOBAL VARIABLES */
 int startingPoint = 0;
 int endingPoint = 4;
 int row = 10;
 int col = 40;
 char matrix[20][80];
 char key;
+int foodRow;
+int foodCol;
+int poisonRow;
+int poisonCol;
 
+/* **************************** */
 struct Snake
 {
     int x;
@@ -143,6 +150,57 @@ struct snakeFood
     char theFood;
 };
 
+
+void createFood(char VALUE)
+{
+    snakeFood *newFood = new snakeFood;
+    newFood->theFood = VALUE;
+
+    foodRow = rand()%20;
+    foodCol = rand()%80;
+    newFood->food_X = foodRow;
+    newFood->food_Y = foodCol;
+    cout<<"ROW IS "<<foodRow<<endl<<"COL IS"<<foodCol<<endl;
+    if((foodRow > 1 && foodRow < 19 )&&(foodCol>1 && foodCol<79))
+    {
+    matrix[newFood->food_X][newFood->food_Y] = newFood->theFood;
+    }
+    else
+    {
+        createFood(VALUE);
+    }
+}
+/* **************************************************************************** */
+
+/* CREATING THE POISON FOR THE SNAKE */
+struct snakePoison
+{
+    int poison_X;
+    int poison_Y;
+    char thePoison;
+};
+
+void createPoison(char VALUE)
+{
+ snakePoison *newPoison = new snakePoison;
+ newPoison->thePoison = VALUE;
+
+ poisonRow = rand()%20;
+ poisonCol = rand()%80;
+ newPoison->poison_X = poisonRow;
+ newPoison->poison_Y = poisonCol;
+ cout<<"POISON ROW IS "<<poisonRow<<endl<<"POISON COL IS"<<poisonCol<<endl;
+
+     if((poisonRow>1 && poisonRow <10) && (poisonCol>1 && poisonCol<70))
+     {
+         matrix[newPoison->poison_X][newPoison->poison_Y]=newPoison->thePoison;
+     }
+     else
+     {
+        createPoison(VALUE);
+     }
+}
+/* **************************************************************************** */
 /* **************************************************************************** */
 /* CODE FOR MOVEMENT KEYS */
 void movement(char key)
@@ -178,8 +236,26 @@ void movement(char key)
                 deleteSnake();
                 break;
         }
+         system("cls");
         cout<<"ROW IS "<<row<<endl<<" COL IS "<<col<<endl;
-        system("cls");
+        cout<<"FOOD ROW IS"<<foodRow<<endl<<"FOOD COL IS"<<foodCol<<endl;
+
+        if(foodRow == row && foodCol == col)
+        {
+            insert(row,col,'*');
+            createFood('@');
+
+        }
+        if(poisonRow == row && poisonCol == col)
+        {
+
+
+            deleteSnake();
+            matrix[row][col] = ' ';
+            createPoison('P');
+
+        }
+
         DisplayBoundary();
         cin>>key;
 
@@ -199,6 +275,9 @@ int main()
     /* THE BODY OF THE SNAKE IS DECLARED */
     initSnake();
     /* ************************************ */
+
+        createFood('@');
+        createPoison('P');
 
     /* GIVING THE OPTIONS TO THE USER */
     cout<<"ENTER\n W TO MOVE UPWARDS\n S TO MOVE DOWNWARDS \n A TO MOVE LEFT \n D TO MOVE RIGHT"<<endl;
