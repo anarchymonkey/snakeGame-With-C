@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
+#include<fstream>
 using namespace std;
 
 /* GLOBAL VARIABLES */
@@ -201,13 +202,35 @@ void createPoison(char VALUE)
      }
 }
 /* **************************************************************************** */
+
+/* CODE FOR SAVING GAME */
+
+void savingGame(int ROWS,int COLS)
+{
+    FILE *insertingData;
+
+    insertingData = fopen("savedData.txt","w");
+    if(insertingData == NULL)
+    {
+        fprintf(stderr,"\nERROR OPENING FILE\n");
+        exit(1);
+    }
+
+    fprintf(insertingData,"%d-%d$$",ROWS,COLS);
+    fclose(insertingData);
+
+}
+
+
+
+/* ********************************* */
 /* **************************************************************************** */
 /* CODE FOR MOVEMENT KEYS */
 void movement(char key)
 {
+    char saveGame;
 
-
-    while(1)
+    while(key!='e')
     {
         switch(key)
         {
@@ -261,7 +284,26 @@ void movement(char key)
         cin>>key;
 
 
+
     }
+     system("cls");
+     if(key == 'e')
+        {
+            cout<<"DO YOU WANNA SAVE THE GAME?\n PRESS Y for 'YES' PRESS N for 'NO' \n"<<endl;
+            cin>>saveGame;
+
+            if(saveGame == 'y' || saveGame == 'Y')
+            {
+                system("cls");
+                cout<<"PLEASE WAIT WHILE YOUR GAME IS SAVING"<<endl;
+                savingGame(row,col);
+            }
+            else
+            {       system("cls");
+                    cout<<"GAME OVER"<<endl;
+            }
+        }
+
 
 }
 
