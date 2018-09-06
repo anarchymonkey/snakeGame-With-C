@@ -250,8 +250,9 @@ void movement(char key)
         {
 
 
-            deleteSnake();
+
             matrix[row][col] = ' ';
+            deleteSnake();
             createPoison('P');
 
         }
