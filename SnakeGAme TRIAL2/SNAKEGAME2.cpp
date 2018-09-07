@@ -16,6 +16,7 @@ int foodRow;
 int foodCol;
 int poisonRow;
 int poisonCol;
+char gameChoice;
 
 /* **************************** */
 struct Snake
@@ -311,8 +312,61 @@ void movement(char key)
 /* END CODE FOR MOVEMENT KEYS */
 
 
+
+/* CODE FOR RELOADING GAME */
+
+void reloadGame()
+{
+    FILE *insideFile;
+    insideFile = fopen("savedData.txt","r");
+    char ch;
+
+    if(insideFile == NULL)
+    {
+        cout<<"KUCH TO DAL DE BHAI FILE MEIN? PLEASE? "<<endl;
+        exit(0);
+    }
+    else
+    {
+        ch = fgetc(insideFile); // for getting the characters in the file
+        while(ch!=EOF)
+        {
+            if(ch !='$' || ch!='-')
+            {
+                cout<<ch;
+                ch = fgetc(insideFile);
+            }
+        }
+
+    }
+    fclose(insideFile);
+
+//cout<<"THE ROW IS"<<ROW<<endl<<"THE COL IS"<<COL<<endl;
+}
+
+
+
+
+/* ************************************************************************************************************** */
+
+
 int main()
-{   /* THE OUTER BOUNDARY IS CREATED */
+{
+    cout<<"WELCOME TO ANIKET'S SNAKE GAME"<<endl;
+    cout<<"FIRST THINGS FIRST\n DO YOU WANT TO RELOAD YOUR PREVIOUS GAME OR START A NEW GAME?\n PRESS R FOR RELOADING THE GAME \n PRESS N FOR NEW GAME"<<endl;
+    cin>>gameChoice;
+
+    switch(gameChoice)
+    {
+    case 'R':
+    case 'r':
+        cout<<"RELOADING GAME"<<endl;
+        reloadGame();
+        break;
+    case 'N':
+    case 'n':
+
+        /* THE OUTER BOUNDARY IS CREATED */
     CreateBoundary();
     /* ***************************** */
 
@@ -330,4 +384,8 @@ int main()
     key = getche();
     movement(key);
     /* END OF GIVING OPTIONS TO THE USER */
+        break;
+    }
+
+
 }
