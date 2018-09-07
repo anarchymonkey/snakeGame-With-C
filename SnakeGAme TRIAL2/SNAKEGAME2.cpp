@@ -281,7 +281,8 @@ void movement(char key)
         }
 
         DisplayBoundary();
-        cin>>key;
+       // if(!kbhit())
+        key = getche();
 
 
 
@@ -323,8 +324,10 @@ int main()
         createPoison('P');
 
     /* GIVING THE OPTIONS TO THE USER */
+
     cout<<"ENTER\n W TO MOVE UPWARDS\n S TO MOVE DOWNWARDS \n A TO MOVE LEFT \n D TO MOVE RIGHT"<<endl;
-    cin>>key;
+    //if(!kbhit())
+    key = getche();
     movement(key);
     /* END OF GIVING OPTIONS TO THE USER */
 }
