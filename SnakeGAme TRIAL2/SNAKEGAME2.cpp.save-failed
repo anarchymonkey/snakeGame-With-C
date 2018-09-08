@@ -218,10 +218,10 @@ void savingGame(int ROWS,int COLS)
     }
     else
     {
-        Snake *datas=head;
+        Snake *datas;
         while(datas->next!=NULL)
         {
-            fprintf(insertingData,"%d-%d-%c$$",datas->x,datas->y,datas->data);
+            fprintf(insertingData,"%d-%d-%d$$",datas->x,datas->y,datas->data);
             datas = datas->next;
         }
 
